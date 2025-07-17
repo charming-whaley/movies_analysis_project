@@ -79,17 +79,7 @@ def obtain_shows_container() -> tuple:
 
 
 def movies_analysis():
-    before_millenium_period = movies[movies['release_year'] < 2000]
-    tens_period = movies[movies['release_year'].between(2000, 2010)].copy()
-    modern_period = movies[movies['release_year'] > 2010]
-
-    median_before_millenium_period = before_millenium_period['imdb_score'].median()
-    median_tens_period = tens_period['imdb_score'].median()
-    median_modern_period = modern_period['imdb_score'].median()
-
-    mean_before_millenium_period = before_millenium_period['imdb_score'].mean()
-    mean_tens_period = tens_period['imdb_score'].mean()
-    mean_modern_period = modern_period['imdb_score'].mean()
+    movies_data = obtain_movies_container()
 
     st.title("Agenda")
     st.write("In this section, I am going to analyze the necessary stuff for the future hypothesis.")
@@ -137,7 +127,7 @@ mean_modern_period = modern_period['imdb_score'].mean()'''
     st.write("Here you can find the bar chart that displays the division of each period in percentage")
     figure = px.pie(
         names=['Before millenium', 'Tens', 'Modern days'], 
-        values=[median_before_millenium_period, median_tens_period, median_modern_period],
+        values=[movies_data[0], movies_data[1], movies_data[2]],
         title='Medians',
         hole=0
     )
@@ -145,7 +135,7 @@ mean_modern_period = modern_period['imdb_score'].mean()'''
 
     figure = px.pie(
         names=['Before millenium', 'Tens', 'Modern days'], 
-        values=[mean_before_millenium_period, mean_tens_period, mean_modern_period],
+        values=[movies_data[3], movies_data[4], movies_data[5]],
         title='Medians',
         hole=0
     )
@@ -154,9 +144,9 @@ mean_modern_period = modern_period['imdb_score'].mean()'''
     st.write("Here is a more detailed version of Mean & Medians comparison using the table:")
     st.dataframe(
         pd.DataFrame({
-            "Before 2000s": [median_before_millenium_period, mean_before_millenium_period],
-            "Between 2000 and 2010": [median_tens_period, mean_tens_period],
-            "After 2010s": [median_modern_period, mean_modern_period]
+            "Before 2000s": [movies_data[0], movies_data[3]],
+            "Between 2000 and 2010": [movies_data[1], movies_data[4]],
+            "After 2010s": [movies_data[2], movies_data[5]]
         }, index=["Median", "Mean"])
     )
 
@@ -164,17 +154,7 @@ mean_modern_period = modern_period['imdb_score'].mean()'''
 
 
 def shows_analysis():
-    before_millenium_period = shows[shows['release_year'] < 2000]
-    tens_period = shows[shows['release_year'].between(2000, 2010)].copy()
-    modern_period = shows[shows['release_year'] > 2010]
-
-    median_before_millenium_period = before_millenium_period['imdb_score'].median()
-    median_tens_period = tens_period['imdb_score'].median()
-    median_modern_period = modern_period['imdb_score'].median()
-
-    mean_before_millenium_period = before_millenium_period['imdb_score'].mean()
-    mean_tens_period = tens_period['imdb_score'].mean()
-    mean_modern_period = modern_period['imdb_score'].mean()
+    shows_data = obtain_shows_container()
 
     st.title("Agenda")
     st.write("In this section, I am going to analyze the necessary stuff for the future hypothesis.")
@@ -223,7 +203,7 @@ mean_modern_period = modern_period['imdb_score'].mean()'''
     st.write("Here you can find the bar chart that displays the division of each period in percentage")
     figure = px.pie(
         names=['Before millenium', 'Tens', 'Modern days'], 
-        values=[median_before_millenium_period, median_tens_period, median_modern_period],
+        values=[shows_data[0], shows_data[1], shows_data[2]],
         title='Medians',
         hole=0
     )
@@ -231,7 +211,7 @@ mean_modern_period = modern_period['imdb_score'].mean()'''
 
     figure = px.pie(
         names=['Before millenium', 'Tens', 'Modern days'], 
-        values=[mean_before_millenium_period, mean_tens_period, mean_modern_period],
+        values=[shows_data[3], shows_data[4], shows_data[5]],
         title='Medians',
         hole=0
     )
@@ -240,9 +220,9 @@ mean_modern_period = modern_period['imdb_score'].mean()'''
     st.write("Here is a more detailed version of Mean & Medians comparison using the table:")
     st.dataframe(
         pd.DataFrame({
-            "Before 2000s": [median_before_millenium_period, mean_before_millenium_period],
-            "Between 2000 and 2010": [median_tens_period, mean_tens_period],
-            "After 2010s": [median_modern_period, mean_modern_period]
+            "Before 2000s": [shows_data[0], shows_data[3]],
+            "Between 2000 and 2010": [shows_data[1], shows_data[4]],
+            "After 2010s": [shows_data[2], shows_data[5]]
         }, index=["Median", "Mean"])
     )
 
@@ -258,5 +238,50 @@ st.write("We need to prove the following hypothesis: if it is true that the IMDB
 
 st.write("To prove this, we need to go back to the results we obtained during the analysis above")
 
+movies_data = obtain_movies_container()
+shows_data = obtain_shows_container()
+categories = ["Before 2000s", "Between 2000 and 2010", "After 2010s"]
+
 st.write("Mean & Median for movies:")
+
+st.dataframe(   
+    pd.DataFrame({  
+        categories[0]: [movies_data[0], movies_data[3]],   
+        categories[1]: [movies_data[1], movies_data[4]],  
+        categories[2]: [movies_data[2], movies_data[5]] 
+    }, index=["Median", "Mean"])    
+)   
+
 st.write("Mean & Median for shows:")
+
+st.dataframe(
+    pd.DataFrame({
+        categories[0]: [shows_data[0], shows_data[3]],   
+        categories[1]: [shows_data[1], shows_data[4]],  
+        categories[2]: [shows_data[2], shows_data[5]] 
+    }, index=["Median", "Mean"])
+)
+
+st.write("For more clarity, let's see these numbers on bar charts:")
+
+figure = go.Figure()
+figure.add_trace(go.Bar(name='Movies', x=categories, y=[movies_data[0], movies_data[1], movies_data[2]]))
+figure.add_trace(go.Bar(name='Shows', x=categories, y=[shows_data[0], shows_data[1], shows_data[2]]))
+figure.update_layout(
+    title="Median ratings",
+    yaxis=dict(range=[0, 9], title="Median rating"),
+    barmode="group"
+)
+st.plotly_chart(figure)
+
+figure = go.Figure()
+figure.add_trace(go.Bar(name='Movies', x=categories, y=[movies_data[3], movies_data[4], movies_data[5]]))
+figure.add_trace(go.Bar(name='Shows', x=categories, y=[shows_data[3], shows_data[4], shows_data[5]]))
+figure.update_layout(
+    title="Mean ratings",
+    yaxis=dict(range=[0, 9], title="Mean rating"),
+    barmode="group"
+)
+st.plotly_chart(figure)
+
+st.write("Hence, from tables and bar charts, it is clearly seen that the average IMDB score of movies made before millenium are better than those after millenium")
