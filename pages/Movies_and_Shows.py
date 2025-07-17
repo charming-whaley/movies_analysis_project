@@ -158,6 +158,53 @@ def shows_analysis():
     st.title("Mean & Median")
     st.write("Now we are to find the mean and median value of three periods: before 2000s, between 2000 and 2010, and 2010 and modern days. I made for clarity to actually see how the IMDB score has been during the whole period")
 
+    st.write("Here is the code for each period:")
+    code = '''
+before_millenium_period = shows[shows['release_year'] < 2000]
+tens_period = shows[shows['release_year'].between(2000, 2010)].copy()
+modern_period = shows[shows['release_year'] > 2010]'''
+    st.code(code, language='python')
+
+    st.write("We first compute median value:")
+    code = '''
+median_before_millenium_period = before_millenium_period['imdb_score'].median()
+median_tens_period = tens_period['imdb_score'].median()
+median_modern_period = modern_period['imdb_score'].median()'''
+    st.code(code, language='python')
+
+    st.write("Next we compute mean value:")
+    code = '''
+mean_before_millenium_period = before_millenium_period['imdb_score'].mean()
+mean_tens_period = tens_period['imdb_score'].mean()
+mean_modern_period = modern_period['imdb_score'].mean()'''
+    st.code(code, language='python')
+
+    st.write("Here you can find the bar chart that displays the division of each period in percentage")
+    figure = px.pie(
+        names=['Before millenium', 'Tens', 'Modern days'], 
+        values=[median_before_millenium_period, median_tens_period, median_modern_period],
+        title='Medians',
+        hole=0
+    )
+    st.plotly_chart(figure, key="Second chart")
+
+    figure = px.pie(
+        names=['Before millenium', 'Tens', 'Modern days'], 
+        values=[mean_before_millenium_period, mean_tens_period, mean_modern_period],
+        title='Medians',
+        hole=0
+    )
+    st.plotly_chart(figure, key="Third chart")
+
+    st.write("Here is a more detailed version of Mean & Medians comparison using the table:")
+    st.dataframe(
+        pd.DataFrame({
+            "Before 2000s": [median_before_millenium_period, mean_before_millenium_period],
+            "Between 2000 and 2010": [median_tens_period, mean_tens_period],
+            "After 2010s": [median_modern_period, mean_modern_period]
+        }, index=["Median", "Mean"])
+    )
+
 
 categories = st.selectbox("Select what you need", ["Movies", "Shows"])
 if categories == "Movies":
