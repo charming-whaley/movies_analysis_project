@@ -53,7 +53,7 @@ def movies_analysis():
     mean_modern_period = modern_period['imdb_score'].mean()
 
     st.title("Agenda")
-    st.write("In this section, I am going to analyze the necessary stuff for the future hypothesis. I divided each item with Roman numbers (I., II., III. ...)")
+    st.write("In this section, I am going to analyze the necessary stuff for the future hypothesis.")
 
     st.title("IMDB scores tendency")
     st.write("First things first, let's see how the average IMDB score change during the whole period of movies production on Netflix:")
@@ -123,7 +123,40 @@ mean_modern_period = modern_period['imdb_score'].mean()'''
 
 
 def shows_analysis():
-    pass
+    before_millenium_period = shows[shows['release_year'] < 2000]
+    tens_period = shows[shows['release_year'].between(2000, 2010)].copy()
+    modern_period = shows[shows['release_year'] > 2010]
+
+    median_before_millenium_period = before_millenium_period['imdb_score'].median()
+    median_tens_period = tens_period['imdb_score'].median()
+    median_modern_period = modern_period['imdb_score'].median()
+
+    mean_before_millenium_period = before_millenium_period['imdb_score'].mean()
+    mean_tens_period = tens_period['imdb_score'].mean()
+    mean_modern_period = modern_period['imdb_score'].mean()
+
+    st.title("Agenda")
+    st.write("In this section, I am going to analyze the necessary stuff for the future hypothesis.")
+
+    st.title("IMDB scores tendency")
+    st.write("First things first, let's see how the average IMDB score change during the whole period of shows production on Netflix:")
+
+    unique_shows = shows.drop_duplicates(subset="imdb_score", keep='first').reset_index(drop=True)
+    figure = px.line(unique_shows, x="release_year", y="imdb_score", title="Average IMDB score each year")
+    slope, intercept = np.polyfit(unique_shows['release_year'], unique_shows['imdb_score'], 1)
+    figure.add_trace(go.Scatter(
+        x=unique_shows['release_year'],
+        y=slope * unique_shows['release_year'] + intercept,
+        mode='lines',
+        name='Decreasing tendency',
+        line=dict(color='white')
+    ))
+    st.plotly_chart(figure, key="First chart")
+
+    st.write("As we can see, since 1960s the average IMDB score of movies completely felt. This may caused by the poor quality of shows made by Netflix studios")
+
+    st.title("Mean & Median")
+    st.write("Now we are to find the mean and median value of three periods: before 2000s, between 2000 and 2010, and 2010 and modern days. I made for clarity to actually see how the IMDB score has been during the whole period")
 
 
 categories = st.selectbox("Select what you need", ["Movies", "Shows"])
