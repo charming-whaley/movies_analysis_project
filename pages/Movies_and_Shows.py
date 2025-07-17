@@ -39,6 +39,45 @@ shows
 st.title("Each analysis separately")
 st.write("Now you can choose whatever analysis you want:")
 
+
+def obtain_movies_container() -> tuple:
+    before_millenium_period = movies[movies['release_year'] < 2000]
+    tens_period = movies[movies['release_year'].between(2000, 2010)].copy()
+    modern_period = movies[movies['release_year'] > 2010]
+
+    median_before_millenium_period = before_millenium_period['imdb_score'].median()
+    median_tens_period = tens_period['imdb_score'].median()
+    median_modern_period = modern_period['imdb_score'].median()
+
+    mean_before_millenium_period = before_millenium_period['imdb_score'].mean()
+    mean_tens_period = tens_period['imdb_score'].mean()
+    mean_modern_period = modern_period['imdb_score'].mean()
+
+    return (
+        median_before_millenium_period, median_tens_period, median_modern_period,
+        mean_before_millenium_period, mean_tens_period, mean_modern_period
+    )
+
+
+def obtain_shows_container() -> tuple:
+    before_millenium_period = shows[shows['release_year'] < 2000]
+    tens_period = shows[shows['release_year'].between(2000, 2010)].copy()
+    modern_period = shows[shows['release_year'] > 2010]
+
+    median_before_millenium_period = before_millenium_period['imdb_score'].median()
+    median_tens_period = tens_period['imdb_score'].median()
+    median_modern_period = modern_period['imdb_score'].median()
+
+    mean_before_millenium_period = before_millenium_period['imdb_score'].mean()
+    mean_tens_period = tens_period['imdb_score'].mean()
+    mean_modern_period = modern_period['imdb_score'].mean()
+
+    return (
+        median_before_millenium_period, median_tens_period, median_modern_period,
+        mean_before_millenium_period, mean_tens_period, mean_modern_period
+    )
+
+
 def movies_analysis():
     before_millenium_period = movies[movies['release_year'] < 2000]
     tens_period = movies[movies['release_year'].between(2000, 2010)].copy()
@@ -120,6 +159,8 @@ mean_modern_period = modern_period['imdb_score'].mean()'''
             "After 2010s": [median_modern_period, mean_modern_period]
         }, index=["Median", "Mean"])
     )
+
+
 
 
 def shows_analysis():
@@ -211,3 +252,11 @@ if categories == "Movies":
     movies_analysis()
 else:
     shows_analysis()
+
+st.title("Hypothesis")
+st.write("We need to prove the following hypothesis: if it is true that the IMDB score of movies & shows made before millenium is better than after millenium?")
+
+st.write("To prove this, we need to go back to the results we obtained during the analysis above")
+
+st.write("Mean & Median for movies:")
+st.write("Mean & Median for shows:")
