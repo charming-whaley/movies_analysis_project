@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import numpy as np
 
 with st.sidebar:
@@ -44,3 +45,25 @@ figure = px.line(movies_and_shows_comparison, x='release_year', y='count', color
 st.plotly_chart(figure, key="First chart")
 
 st.write("As we can see from the line graph above, the quantity of movies produced by Netflix was much larger than the number of shows made in the same period. However, since the start of millenium period the quantity of shows made by Netflix significantly increased, which shows that nowadays people mostly prefer shows rather than movies")
+
+st.write("Next, let's find top-10 content-production years during the whole period.")
+
+movies_and_shows_comparison = data['release_year'].value_counts().nlargest(10).sort_index()
+years = movies_and_shows_comparison.index.astype(str)
+values = movies_and_shows_comparison.values
+
+figure = go.Figure(data=[go.Bar(x=years, y=values, text=values, textposition="auto", marker=dict(color='lightblue'))])
+figure.update_layout(
+    title="Top 10 years by content quality",
+    xaxis_title="Years",
+    yaxis_title="Content quality",
+    template="plotly_white"
+)
+st.plotly_chart(figure, key="Second chart")
+
+st.write("Here, we can see that the period from 2017 to 2021 was the most productive for Netflix. This may be caused by the COVID-19 pandemic, as well as the decrease in Netflix prices and increase in popularity of streaming services")
+
+st.title("Hypothesis")
+st.write("We need to prove the following hypothesis: is it true that for the last couple of years, the quantity of content produced by Neflix significantly increased?")
+
+st.write("Let's come back to the data obtained during the research above. We can clearly see that from 2017 to 2021 the number of movies/shows increased significantly which caused by the COVID-19 pandemic and the tendency of remote work. Also, this may happen due to the fact that the opportunity to get content online has become more available for people")
