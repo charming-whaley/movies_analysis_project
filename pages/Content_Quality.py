@@ -56,8 +56,7 @@ figure = go.Figure(data=[go.Bar(x=years, y=values, text=values, textposition="au
 figure.update_layout(
     title="Top 10 years by content quality",
     xaxis_title="Years",
-    yaxis_title="Content quality",
-    template="plotly_white"
+    yaxis_title="Content quality"
 )
 st.plotly_chart(figure, key="Second chart")
 
