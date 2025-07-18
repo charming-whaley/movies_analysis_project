@@ -6,7 +6,7 @@ import numpy as np
 
 with st.sidebar:
     st.title("🎥 Movies vs. Shows")
-    st.markdown("Movies vs. Shows battle never ends. On these page, I analyze the given data about movies & shows")
+    st.markdown("Movies vs. Shows battle never ends. On this page, I analyze the given data about movies & shows")
 
 data = pd.read_csv("b.csv")
 movies = data[data['type'] == 'MOVIE']
@@ -17,7 +17,7 @@ shows = data[data['type'] == 'SHOW']
 shows = shows[['index', 'title', 'type', 'release_year', 'imdb_score', 'imdb_votes']]
 shows = shows.sort_values(by='release_year')
 
-st.title("First steps")
+st.title("🎥 Movies vs. Shows")
 st.write("Before we start to analyze the data, we need to divide that into two categories: Movies and Shows. For this, I am going to do the following: ")
 code = '''
 movies = data[data['type'] == 'MOVIE']
