@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler
 
 with st.sidebar:
     st.title("⭐️ Content Quality")
-    st.markdown("\"Old movies are better than modern ones\". On this page, I analyze if the quality of content increased/decreased")
+    st.markdown("\"Old movies are better than modern ones\" — or are they? In this dashboard, we explore how the quality and quantity of Netflix content have evolved over time.")
 
 
 data = pd.read_csv("b.csv")
@@ -20,7 +20,7 @@ shows = shows[['index', 'title', 'type', 'release_year', 'runtime', 'imdb_score'
 shows = shows.sort_values(by='release_year')
 
 st.title("⭐️ Content Quality")
-st.write("Before we start to analyze the data, we need to divide that into two categories: Movies and Shows. For this, I am going to do the following: ")
+st.write("To begin our analysis, we first separate the dataset into two distinct content types: movies and TV shows. This allows us to explore trends more precisely for each format.")
 
 code = '''
 movies = data[data['type'] == 'MOVIE']
@@ -39,15 +39,15 @@ st.text("Shows:")
 shows
 
 st.title("Content production")
-st.write("Let's first display how much content has been produced during the whole period of 1950-2022:")
+st.write("Let’s start by examining the volume of Netflix content produced annually between 1950 and 2022.")
 
 movies_and_shows_comparison = data.groupby(['release_year', 'type']).size().reset_index(name='count')
 figure = px.line(movies_and_shows_comparison, x='release_year', y='count', color='type', title='Movies and Shows quantity')
 st.plotly_chart(figure, key="First chart")
 
-st.write("As we can see from the line graph above, the quantity of movies produced by Netflix was much larger than the number of shows made in the same period. However, since the start of millenium period the quantity of shows made by Netflix significantly increased, which shows that nowadays people mostly prefer shows rather than movies")
+st.write("The line chart above shows that historically, Netflix produced significantly more movies than shows. However, starting in the early 2000s, the number of TV shows began to rise sharply. This shift likely reflects changing viewer preferences and Netflix's strategic expansion into serialized content.")
 
-st.write("Next, let's find top-10 content-production years during the whole period.")
+st.write("Next, we identify the top 10 years with the highest volume of content production.")
 
 movies_and_shows_comparison = data['release_year'].value_counts().nlargest(10).sort_index()
 years = movies_and_shows_comparison.index.astype(str)
@@ -61,15 +61,14 @@ figure.update_layout(
 )
 st.plotly_chart(figure, key="Second chart")
 
-st.write("Here, we can see that the period from 2017 to 2021 was the most productive for Netflix. This may be caused by the COVID-19 pandemic, as well as the decrease in Netflix prices and increase in popularity of streaming services")
+st.write("The chart shows that the years 2017–2021 were particularly productive for Netflix. This surge may be attributed to increased demand during the COVID-19 pandemic, the rise of streaming services, and Netflix's global expansion strategy.")
 
 st.title("Hypothesis")
-st.write("We need to prove the following hypothesis: is it true that for the last couple of years, the quantity of content produced by Neflix significantly increased?")
-
-st.write("Let's come back to the data obtained during the research above. We can clearly see that from 2017 to 2021 the number of movies/shows increased significantly which caused by the COVID-19 pandemic and the tendency of remote work. Also, this may happen due to the fact that the opportunity to get content online has become more available for people")
+st.write("Let’s test the hypothesis: Has Netflix significantly increased its content production in recent years?")
+st.write("Returning to our previous findings, it’s evident that content production spiked between 2017 and 2021. This growth may be linked to the pandemic-driven shift toward remote work and the increased accessibility of digital content platforms.")
 
 st.title("Content duration")
-st.write("In the end, let's check Netflix production strategy. For this, ")
+st.write("In the final part of our analysis, we examine the evolution of Netflix's content production strategy by clustering the content based on its duration and release year. This helps us identify potential shifts in format preferences over time — for example, the transition from full-length movies to shorter series or vice versa.")
 
 new_data = data[['runtime', 'release_year']].dropna()
 X = StandardScaler().fit_transform(new_data)
@@ -90,3 +89,5 @@ figure = px.scatter(
 )
 
 st.plotly_chart(figure, key="Third chart")
+
+st.write("This clustering confirms that Netflix has shifted from primarily offering full-length movies to a more diverse content portfolio, including shorter and mid-length productions. The expansion reflects evolving viewer habits and Netflix’s adaptive content strategy in the streaming age.")
