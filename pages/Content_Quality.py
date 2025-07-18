@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-import numpy as np
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
 
 with st.sidebar:
     st.title("⭐️ Content Quality")
@@ -66,3 +67,26 @@ st.title("Hypothesis")
 st.write("We need to prove the following hypothesis: is it true that for the last couple of years, the quantity of content produced by Neflix significantly increased?")
 
 st.write("Let's come back to the data obtained during the research above. We can clearly see that from 2017 to 2021 the number of movies/shows increased significantly which caused by the COVID-19 pandemic and the tendency of remote work. Also, this may happen due to the fact that the opportunity to get content online has become more available for people")
+
+st.title("Content duration")
+st.write("In the end, let's check Netflix production strategy. For this, ")
+
+new_data = data[['runtime', 'release_year']].dropna()
+X = StandardScaler().fit_transform(new_data)
+
+kmeans = KMeans(n_clusters=3, random_state=42)
+new_data['cluster'] = kmeans.fit_predict(X)
+figure = px.scatter(
+    new_data,
+    x='release_year',
+    y='runtime',
+    color='cluster',
+    title='Content duration cluster',
+    labels={
+        'release_year': 'Release year', 
+        'runtime': 'Duration (minutes)'
+    },
+    color_continuous_scale='viridis'
+)
+
+st.plotly_chart(figure, key="Third chart")
