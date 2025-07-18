@@ -29,3 +29,18 @@ shows = data[data['type'] == 'SHOW']
 shows = shows[['index', 'title', 'type', 'release_year', 'runtime', 'imdb_score', 'imdb_votes']]
 shows = shows.sort_values(by='release_year')'''
 st.code(code, language='python')
+
+st.text("Movies:")
+movies
+
+st.text("Shows:")
+shows
+
+st.title("Content production")
+st.write("Let's first display how much content has been produced during the whole period of 1950-2022:")
+
+movies_and_shows_comparison = data.groupby(['release_year', 'type']).size().reset_index(name='count')
+figure = px.line(movies_and_shows_comparison, x='release_year', y='count', color='type', title='Movies and Shows quantity')
+st.plotly_chart(figure, key="First chart")
+
+st.write("As we can see from the line graph above, the quantity of movies produced by Netflix was much larger than the number of shows made in the same period. However, since the start of millenium period the quantity of shows made by Netflix significantly increased, which shows that nowadays people mostly prefer shows rather than movies")

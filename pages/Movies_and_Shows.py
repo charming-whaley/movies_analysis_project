@@ -36,7 +36,7 @@ movies
 st.text("Shows:")
 shows
 
-st.title("Each analysis separately")
+st.title("Each separate analysis")
 st.write("Now you can choose whatever analysis you want:")
 
 
