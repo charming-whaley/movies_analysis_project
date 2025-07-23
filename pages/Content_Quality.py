@@ -12,7 +12,7 @@ with st.sidebar:
 data = pd.read_csv("b.csv")
 
 st.title("First steps")
-st.write("Let's start the analysis with exploring the actual dataset:")
+st.write("Let's start the analysis with exploring the actual dataset")
 
 st.write("The head of the dataset:")
 st.write(data.head(8))
