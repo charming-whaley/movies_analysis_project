@@ -9,8 +9,21 @@ with st.sidebar:
     st.title("⭐️ Content Quality")
     st.markdown("\"Old movies are better than modern ones\" — or are they? In this dashboard, we explore how the quality and quantity of Netflix content have evolved over time.")
 
-
 data = pd.read_csv("b.csv")
+
+st.title("First steps")
+st.write("Let's start the analysis with exploring the actual dataset:")
+
+st.write("The head of the dataset:")
+st.write(data.head(8))
+
+st.write("Basic info about the dataset:")
+st.write(data.describe())
+st.write("The number of cols/rows respectively:", data.shape)
+st.write("Types of each column in the dataset:", data.dtypes)
+
+st.write("The Movies & Shows dataset is all done, so there is no need to change anything for the current analysis. We can now proceed by analyzing data.")
+
 movies = data[data['type'] == 'MOVIE']
 movies = movies[['index', 'title', 'type', 'release_year', 'runtime', 'imdb_score', 'imdb_votes']]
 movies = movies.sort_values(by='release_year')
@@ -19,7 +32,7 @@ shows = data[data['type'] == 'SHOW']
 shows = shows[['index', 'title', 'type', 'release_year', 'runtime', 'imdb_score', 'imdb_votes']]
 shows = shows.sort_values(by='release_year')
 
-st.title("⭐️ Content Quality")
+st.title("Content Quality")
 st.write("To begin our analysis, we first separate the dataset into two distinct content types: movies and TV shows. This allows us to explore trends more precisely for each format.")
 
 code = '''
