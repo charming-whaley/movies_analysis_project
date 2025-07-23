@@ -17,7 +17,20 @@ shows = data[data['type'] == 'SHOW']
 shows = shows[['index', 'title', 'type', 'release_year', 'imdb_score', 'imdb_votes']]
 shows = shows.sort_values(by='release_year')
 
-st.title("🎥 Movies vs. Shows")
+st.title("First steps")
+st.write("Let's start the analysis with exploring the actual dataset:")
+
+st.write("The head of the dataset:")
+st.write(data.head(8))
+
+st.write("Basic info about the dataset:")
+st.write(data.describe())
+st.write("The number of cols/rows respectively:", data.shape)
+st.write("Types of each column in the dataset:", data.dtypes)
+
+st.write("The Movies & Shows dataset is all done, so there is no need to change anything for the current analysis. We can now proceed by analyzing data.")
+
+st.title("Movies vs. Shows")
 st.write("Before we start to analyze the data, we need to divide that into two categories: Movies and Shows. For this, I am going to do the following: ")
 code = '''
 movies = data[data['type'] == 'MOVIE']
