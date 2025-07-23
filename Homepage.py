@@ -15,7 +15,7 @@ st.write(data)
 
 st.write("This is a little project for practice, so don't be sooo picky :)")
 
-st.title("🌍 Socials")
+st.title("Socials")
 
 st.write("Aw, almost forgot. You can find me here:")
 

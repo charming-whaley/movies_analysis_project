@@ -46,10 +46,10 @@ shows = shows.sort_values(by='release_year')'''
 st.code(code, language='python')
 
 st.text("Movies:")
-movies
+st.write(movies)
 
 st.text("Shows:")
-shows
+st.write(shows)
 
 st.title("Content production")
 st.write("Let’s start by examining the volume of Netflix content produced annually between 1950 and 2022.")

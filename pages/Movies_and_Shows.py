@@ -44,10 +44,10 @@ st.code(code, language='python')
 st.write("After this, we obtain the following datasets, which are ready for analysis:")
 
 st.text("Movies:")
-movies
+st.write(movies)
 
 st.text("Shows:")
-shows
+st.write(shows)
 
 st.title("Each separate analysis")
 st.write("Now you can choose whatever analysis you want:")
